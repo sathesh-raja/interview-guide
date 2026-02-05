@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React JS Interview Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0c1b2a;
+        --muted: #5a6b7a;
+        --accent: #ff7a1a;
+        --accent-2: #1f7a8c;
+        --paper: #fbf4ea;
+        --paper-2: #f1efe9;
+        --card: #ffffff;
+        --shadow: 0 20px 50px rgba(12, 27, 42, 0.15);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top, #fff4dc 0%, #f7e7d6 45%, #f1efe9 100%);
+      }
+
+      header {
+        padding: 64px 7vw 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::after {
+        content: "";
+        position: absolute;
+        right: -120px;
+        top: -120px;
+        width: 320px;
+        height: 320px;
+        background: linear-gradient(135deg, rgba(255, 122, 26, 0.25), rgba(31, 122, 140, 0.25));
+        border-radius: 50%;
+        filter: blur(10px);
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent-2);
+      }
+
+      h1 {
+        font-size: clamp(32px, 4vw, 52px);
+        margin: 12px 0 16px;
+      }
+
+      .lede {
+        max-width: 720px;
+        font-family: "IBM Plex Serif", serif;
+        font-size: 18px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        padding: 0 7vw 32px;
+      }
+
+      .control-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      input[type="search"],
+      select {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-size: 15px;
+        min-width: 220px;
+        box-shadow: var(--shadow);
+        background: var(--card);
+      }
+
+      .stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      main {
+        padding: 0 7vw 72px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 20px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid rgba(12, 27, 42, 0.05);
+        animation: rise 0.6s ease both;
+      }
+
+      .card h3 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.4;
+      }
+
+      .card p {
+        margin: 0;
+        font-size: 15px;
+        color: var(--muted);
+        line-height: 1.6;
+        font-family: "IBM Plex Serif", serif;
+      }
+
+      .tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        background: var(--paper);
+        color: var(--ink);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .tag.level {
+        background: rgba(31, 122, 140, 0.15);
+        color: var(--accent-2);
+      }
+
+      footer {
+        padding: 32px 7vw 48px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @keyframes rise {
+        from {
+          transform: translateY(12px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 720px) {
+        header {
+          padding-top: 48px;
+        }
+
+        .control-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        input[type="search"],
+        select {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">React JS Interview Guide</div>
+      <h1>React JS interview questions and answers</h1>
+      <p class="lede">
+        A curated, comprehensive set of React JS interview questions with concise,
+        technical answers. Filter by category or level, or search keywords to drill into the topics
+        you want to practice.
+      </p>
+    </header>
+
+    <section class="controls">
+      <div class="control-row">
+        <input id="search" type="search" placeholder="Search questions or answers" />
+        <select id="category">
+          <option value="all">All categories</option>
+        </select>
+        <select id="level">
+          <option value="all">All levels</option>
+        </select>
+      </div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <main>
+      <div class="grid" id="grid"></div>
+    </main>
+
+    <footer>
+      Built for rapid interview prep. Update the data array in this file to add more Q and A.
+    </footer>
+
+    <script>
+      const data = [
+        {
+          question: "What problem does React solve?",
+          answer:
+            "React focuses on building declarative UI using a component model. It solves UI complexity by making the view a pure function of state, enabling predictable rendering and easier updates.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "What is a component in React?",
+          answer:
+            "A component is an isolated, reusable UI unit that receives inputs via props and manages its own state. Components compose together to build complex interfaces.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "Difference between props and state?",
+          answer:
+            "Props are read-only inputs passed from parent to child. State is local, mutable data owned by the component. Props flow down; state changes trigger re-render.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "What is JSX and why use it?",
+          answer:
+            "JSX is a syntax extension that lets you write UI markup in JavaScript. It compiles to React.createElement calls, making component structure more readable.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "How does reconciliation work?",
+          answer:
+            "React compares the new virtual DOM tree with the previous one, computes minimal changes, and applies them to the real DOM. Keys help identify stable elements.",
+          category: "Rendering",
+          level: "Mid"
+        },
+        {
+          question: "Why are keys important in lists?",
+          answer:
+            "Keys uniquely identify elements so React can preserve component instances and avoid unnecessary re-renders or incorrect state reuse when list order changes.",
+          category: "Rendering",
+          level: "Junior"
+        },
+        {
+          question: "What is the difference between controlled and uncontrolled inputs?",
+          answer:
+            "Controlled inputs keep form values in React state and update via onChange. Uncontrolled inputs rely on the DOM for state, accessed via refs when needed.",
+          category: "Forms",
+          level: "Mid"
+        },
+        {
+          question: "What are React hooks?",
+          answer:
+            "Hooks are functions that let you use state and lifecycle features in functional components, such as useState, useEffect, and useMemo.",
+          category: "Hooks",
+          level: "Junior"
+        },
+        {
+          question: "Rules of hooks?",
+          answer:
+            "Only call hooks at the top level of React functions and never inside loops or conditionals. Only call hooks from React function components or custom hooks.",
+          category: "Hooks",
+          level: "Junior"
+        },
+        {
+          question: "What does useEffect do?",
+          answer:
+            "It runs side effects after render. Dependency arrays control when it re-runs and the cleanup function handles teardown like subscriptions or timers.",
+          category: "Hooks",
+          level: "Junior"
+        },
+        {
+          question: "Difference between useEffect and useLayoutEffect?",
+          answer:
+            "useLayoutEffect runs synchronously after DOM mutations but before paint, useful for layout reads. useEffect runs after paint, avoiding blocking UI.",
+          category: "Hooks",
+          level: "Mid"
+        },
+        {
+          question: "When would you use useMemo?",
+          answer:
+            "Use useMemo to memoize expensive computations between renders when inputs do not change. It is a performance optimization, not a behavior guarantee.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "When would you use useCallback?",
+          answer:
+            "Use useCallback to memoize function references passed to memoized children, preventing unnecessary re-renders due to changed function identity.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is React.memo?",
+          answer:
+            "React.memo memoizes a component, skipping re-render if props are shallowly equal. Useful for pure components receiving stable props.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is lifting state up?",
+          answer:
+            "Lifting state up means moving shared state to the closest common ancestor so sibling components can stay in sync via props.",
+          category: "State",
+          level: "Junior"
+        },
+        {
+          question: "What is prop drilling and how do you avoid it?",
+          answer:
+            "Prop drilling is passing props through many layers. Avoid it with context, composition, or state management libraries.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "What does useContext solve?",
+          answer:
+            "useContext lets components read and subscribe to context values without manually passing props through intermediate layers.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "What is a context provider?",
+          answer:
+            "A provider supplies a context value to all descendants. When the value changes, subscribed components re-render.",
+          category: "State",
+          level: "Junior"
+        },
+        {
+          question: "What are refs used for?",
+          answer:
+            "Refs hold mutable values or DOM node references without causing re-render. Common uses include focus management and measuring elements.",
+          category: "Refs",
+          level: "Junior"
+        },
+        {
+          question: "Difference between useRef and createRef?",
+          answer:
+            "useRef returns the same ref object across renders for function components. createRef creates a new ref each render, typically used in class components.",
+          category: "Refs",
+          level: "Mid"
+        },
+        {
+          question: "What are fragments?",
+          answer:
+            "Fragments let you group children without adding extra DOM nodes. Use <>...</> or <React.Fragment>.",
+          category: "Rendering",
+          level: "Junior"
+        },
+        {
+          question: "What is the virtual DOM?",
+          answer:
+            "It is an in-memory representation of the UI tree that React uses to diff changes and update the real DOM efficiently.",
+          category: "Rendering",
+          level: "Junior"
+        },
+        {
+          question: "How do you handle side effects in React?",
+          answer:
+            "Use useEffect in function components or lifecycle methods in class components to handle async calls, subscriptions, and DOM interactions.",
+          category: "Hooks",
+          level: "Junior"
+        },
+        {
+          question: "Explain component lifecycle in class components.",
+          answer:
+            "Key phases are mounting, updating, and unmounting. Methods include componentDidMount, componentDidUpdate, and componentWillUnmount.",
+          category: "Lifecycle",
+          level: "Mid"
+        },
+        {
+          question: "What is StrictMode?",
+          answer:
+            "StrictMode runs extra checks in development to surface side effects and legacy patterns. It can double-invoke certain lifecycles and effects in dev.",
+          category: "Tooling",
+          level: "Mid"
+        },
+        {
+          question: "What are synthetic events?",
+          answer:
+            "React wraps native events in a cross-browser SyntheticEvent system, normalizing behavior and enabling event pooling.",
+          category: "Events",
+          level: "Junior"
+        },
+        {
+          question: "How do you prevent re-render of child components?",
+          answer:
+            "Use React.memo, stable props (useMemo/useCallback), and avoid passing new objects each render unless needed.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between state batching and updates?",
+          answer:
+            "React batches state updates for performance, applying them together before re-render. In React 18, batching is enabled for most async boundaries.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "How does setState work in class components?",
+          answer:
+            "setState is asynchronous and may be batched. You can pass an object or a function to update based on previous state.",
+          category: "State",
+          level: "Junior"
+        },
+        {
+          question: "What is the purpose of keys in React reconciliation?",
+          answer:
+            "Keys help React detect which items changed, were added, or removed, improving correctness and performance for lists.",
+          category: "Rendering",
+          level: "Junior"
+        },
+        {
+          question: "What is a custom hook?",
+          answer:
+            "A custom hook is a reusable function that uses React hooks to encapsulate stateful logic, sharing behavior across components.",
+          category: "Hooks",
+          level: "Mid"
+        },
+        {
+          question: "How do you handle errors in React?",
+          answer:
+            "Use error boundaries (class components with componentDidCatch and getDerivedStateFromError) to catch render errors and display fallback UI.",
+          category: "Errors",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between React Router and React?",
+          answer:
+            "React builds UI components, while React Router handles client-side routing, mapping URLs to components.",
+          category: "Routing",
+          level: "Junior"
+        },
+        {
+          question: "What is code splitting in React?",
+          answer:
+            "Code splitting loads only the code needed for the current view, often with React.lazy and Suspense, improving initial load time.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is Suspense used for?",
+          answer:
+            "Suspense coordinates loading states for lazy components and, in the future, data fetching. It shows fallback UI while waiting.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "Explain hydration in React.",
+          answer:
+            "Hydration attaches event listeners and restores React state on server-rendered HTML so the app becomes interactive without re-rendering markup.",
+          category: "SSR",
+          level: "Senior"
+        },
+        {
+          question: "What is the difference between CSR and SSR?",
+          answer:
+            "Client-side rendering (CSR) renders in the browser, while server-side rendering (SSR) sends HTML from the server for faster first paint and SEO.",
+          category: "SSR",
+          level: "Mid"
+        },
+        {
+          question: "What is React fiber?",
+          answer:
+            "Fiber is React's rendering engine that enables incremental rendering, prioritization, and interruptible work for better responsiveness.",
+          category: "Architecture",
+          level: "Senior"
+        },
+        {
+          question: "How do you optimize large lists?",
+          answer:
+            "Use windowing/virtualization libraries like react-window to render only visible items, reducing DOM nodes and render time.",
+          category: "Performance",
+          level: "Senior"
+        },
+        {
+          question: "What is the difference between Redux and Context?",
+          answer:
+            "Context is for dependency injection and sharing data. Redux is a predictable state container with actions, reducers, and middleware for complex apps.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "What is a reducer in React?",
+          answer:
+            "A reducer is a pure function that calculates the next state from the previous state and an action. Used with useReducer.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "When would you use useReducer over useState?",
+          answer:
+            "Use useReducer when state transitions are complex, related values change together, or when you want action-based updates.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "How do you avoid stale closures in effects?",
+          answer:
+            "Include dependencies correctly, or use refs to hold mutable values. For async updates, use functional state updates.",
+          category: "Hooks",
+          level: "Senior"
+        },
+        {
+          question: "What is concurrent rendering?",
+          answer:
+            "Concurrent rendering lets React prepare multiple UI versions without blocking the main thread, improving responsiveness and enabling transitions.",
+          category: "Architecture",
+          level: "Senior"
+        },
+        {
+          question: "What is startTransition?",
+          answer:
+            "startTransition marks state updates as non-urgent so React can keep the UI responsive while rendering expensive updates.",
+          category: "Performance",
+          level: "Senior"
+        },
+        {
+          question: "How do you test React components?",
+          answer:
+            "Use React Testing Library for user-centric tests and Jest for assertions and mocks. Focus on behavior rather than implementation details.",
+          category: "Testing",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between shallow rendering and full rendering?",
+          answer:
+            "Shallow rendering tests a component in isolation without rendering children, while full rendering mounts the full tree. RTL favors full DOM testing.",
+          category: "Testing",
+          level: "Mid"
+        },
+        {
+          question: "How do you handle performance in React?",
+          answer:
+            "Use memoization, code splitting, list virtualization, and avoid unnecessary re-renders by stabilizing props and state updates.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between defaultProps and ES6 defaults?",
+          answer:
+            "defaultProps applies to undefined props and works for class components. ES6 defaults are handled in function parameters for function components.",
+          category: "Fundamentals",
+          level: "Mid"
+        },
+        {
+          question: "Explain portals in React.",
+          answer:
+            "Portals render children into a DOM node outside the parent hierarchy, useful for modals, tooltips, and overlays.",
+          category: "Rendering",
+          level: "Mid"
+        },
+        {
+          question: "What is the role of key in React diffing?",
+          answer:
+            "Keys provide stable identity for list items so React can match elements between renders and keep component state aligned.",
+          category: "Rendering",
+          level: "Junior"
+        },
+        {
+          question: "How do you manage global state in React?",
+          answer:
+            "Use context for lightweight global state, or libraries like Redux, Zustand, or Jotai for larger apps with complex data flows.",
+          category: "State",
+          level: "Mid"
+        },
+        {
+          question: "What are pure components?",
+          answer:
+            "Pure components render the same output given the same props and state. React.PureComponent shallowly compares props and state to skip re-renders.",
+          category: "Performance",
+          level: "Mid"
+        },
+        {
+          question: "What is an error boundary limitation?",
+          answer:
+            "Error boundaries do not catch errors in event handlers, async code, or errors thrown inside the boundary itself. They only catch render lifecycle errors.",
+          category: "Errors",
+          level: "Senior"
+        },
+        {
+          question: "How does React handle events?",
+          answer:
+            "React attaches a single listener at the root and uses event delegation with synthetic events for consistent behavior across browsers.",
+          category: "Events",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between useEffect cleanup and componentWillUnmount?",
+          answer:
+            "useEffect cleanup runs before the effect re-runs or when the component unmounts. componentWillUnmount runs only once on unmount.",
+          category: "Lifecycle",
+          level: "Mid"
+        },
+        {
+          question: "What is the purpose of dependency arrays in hooks?",
+          answer:
+            "Dependency arrays tell React when to re-run effects or re-compute memoized values by tracking values referenced inside the hook.",
+          category: "Hooks",
+          level: "Junior"
+        },
+        {
+          question: "How do you avoid re-renders with context?",
+          answer:
+            "Split context by concern, memoize values, and use selectors or custom hooks so only relevant consumers update.",
+          category: "State",
+          level: "Senior"
+        },
+        {
+          question: "What is the difference between element and component?",
+          answer:
+            "An element is a plain object representing UI. A component is a function or class that returns elements.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "How do you handle authentication in a React app?",
+          answer:
+            "Store tokens securely (prefer httpOnly cookies), protect routes with guards, and centralize auth state via context or a state library.",
+          category: "Security",
+          level: "Senior"
+        },
+        {
+          question: "What is the recommended way to fetch data in React?",
+          answer:
+            "Use useEffect or data-fetching libraries like React Query or SWR to handle caching, deduping, and background refresh.",
+          category: "Data",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between useEffect and componentDidMount?",
+          answer:
+            "useEffect with an empty dependency array runs after the first render, similar to componentDidMount. It also can return cleanup logic.",
+          category: "Lifecycle",
+          level: "Junior"
+        },
+        {
+          question: "How do you handle forms with many fields?",
+          answer:
+            "Use libraries like React Hook Form or Formik, or manage state with useReducer. Avoid re-rendering all fields on each change.",
+          category: "Forms",
+          level: "Mid"
+        },
+        {
+          question: "What is the difference between default export and named export in React components?",
+          answer:
+            "Default exports allow any name on import. Named exports require the exact exported name, making refactors and tooling more predictable.",
+          category: "Fundamentals",
+          level: "Junior"
+        },
+        {
+          question: "How do you memoize derived state?",
+          answer:
+            "Use useMemo for expensive derivations or compute values during render if cheap. Avoid storing derived data in state unless needed.",
+          category: "Performance",
+          level: "Mid"
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+      const search = document.getElementById("search");
+      const category = document.getElementById("category");
+      const level = document.getElementById("level");
+      const stats = document.getElementById("stats");
+
+      const unique = (items) => [...new Set(items)].sort();
+
+      const categories = unique(data.map((item) => item.category));
+      const levels = unique(data.map((item) => item.level));
+
+      categories.forEach((name) => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        category.appendChild(option);
+      });
+
+      levels.forEach((name) => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        level.appendChild(option);
+      });
+
+      const render = () => {
+        const query = search.value.trim().toLowerCase();
+        const categoryValue = category.value;
+        const levelValue = level.value;
+
+        const filtered = data.filter((item) => {
+          const matchesText =
+            !query ||
+            item.question.toLowerCase().includes(query) ||
+            item.answer.toLowerCase().includes(query);
+          const matchesCategory =
+            categoryValue === "all" || item.category === categoryValue;
+          const matchesLevel = levelValue === "all" || item.level === levelValue;
+          return matchesText && matchesCategory && matchesLevel;
+        });
+
+        stats.textContent = `${filtered.length} of ${data.length} questions shown`;
+
+        grid.innerHTML = "";
+        filtered.forEach((item, index) => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.style.animationDelay = `${index * 0.02}s`;
+
+          card.innerHTML = `
+            <div class="tags">
+              <span class="tag">${item.category}</span>
+              <span class="tag level">${item.level}</span>
+            </div>
+            <h3>${item.question}</h3>
+            <p>${item.answer}</p>
+          `;
+
+          grid.appendChild(card);
+        });
+      };
+
+      [search, category, level].forEach((control) =>
+        control.addEventListener("input", render)
+      );
+
+      render();
+    </script>
+  </body>
+</html>
